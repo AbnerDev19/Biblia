@@ -1,144 +1,272 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lumen - Bible App</title>
+    <title>Lumen</title>
+    <meta name="theme-color" content="#141414">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Lora:wght@500&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div id="app">
 
         <header class="streak-header-bar" id="main-header">
             <div class="lumen-logo">LUMEN</div>
-            <div class="fire-streak-widget" onclick="app.nav.goTo('profile')">
+            <div class="fire-streak-widget">
                 <span class="material-icons-round fire-icon-main">local_fire_department</span>
-                <span id="header-streak-count" style="font-weight:bold; font-size:14px;">12</span>
+                <span id="header-streak-count" style="font-weight:bold; font-size:14px; color:#fff;">--</span>
             </div>
         </header>
 
-        <section id="view-login" class="screen active" style="z-index: 200; padding-bottom: 0;">
-            <div class="login-bg"></div>
-            <div class="login-content">
-                <h1 class="lumen-logo-large">LUMEN</h1>
-                <p>Sua jornada épica através da Palavra.</p>
-                <div class="login-form">
-                    <button class="btn-primary full" onclick="app.auth.login()">Entrar</button>
-                    <button class="btn-secondary full">Criar Conta</button>
-                    <small style="color:#888; display:block; margin-top:15px">Recuperar senha</small>
-                </div>
-            </div>
-        </section>
-
-        <section id="view-home" class="screen">
-            <div class="scroll-y pad-bot pad-top-header">
-                <div class="hero-wrapper" onclick="app.reader.open('gn', 1)">
+        <section id="view-home" class="screen active">
+            <div class="scroll-y">
+                <div class="hero-wrapper">
+                    <img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80" class="hero-bg-img">
                     <div class="hero-overlay">
-                        <div class="hero-tags">
-                            <span class="tag-badge">Em Alta</span>
-                            <span class="tag-badge">Gênesis</span>
-                        </div>
-                        <div class="hero-title">O Início</div>
-                        <div class="hero-desc">Descubra como tudo começou. A narrativa da criação, queda e redenção.</div>
+                        <div class="hero-tags"><span class="tag-badge">Leitura do Dia</span></div>
+                        <div class="hero-title">A Criação</div>
+                        <div class="hero-desc">No princípio criou Deus o céu e a terra.</div>
                         <div class="hero-actions">
-                            <button class="btn-play"><span class="material-icons-round" style="color:#000">play_arrow</span> Ler</button>
-                            <button class="btn-list"><span class="material-icons-round">add</span> Lista</button>
+                            <button class="btn-play" onclick="app.reader.open('gn', 1)">
+                                <span class="material-icons-round" style="color:#000; font-size:20px;">play_arrow</span> Ler
+                            </button>
+                            <button class="btn-list" onclick="app.user.toggleList('gn')">
+                                <span class="material-icons-round" id="hero-list-icon" style="font-size:20px;">add</span> 
+                                <span id="hero-list-text">Minha Lista</span>
+                            </button>
                         </div>
                     </div>
                 </div>
-
+                <div class="section-wrapper hidden" id="wrapper-mylist">
+                    <div class="section-title">Minha Lista</div>
+                    <div class="horizontal-list" id="list-mylist"></div>
+                </div>
                 <div class="section-wrapper">
                     <div class="section-title">Continue Lendo</div>
-                    <div class="horizontal-list" id="home-continue-list"></div>
+                    <div class="horizontal-list" id="list-continue"></div>
+                </div>
+                <div class="section-wrapper">
+                    <div class="section-title">Pentateuco</div>
+                    <div class="horizontal-list" id="list-pentateuco"></div>
+                </div>
+                <div class="section-wrapper">
+                    <div class="section-title">Históricos</div>
+                    <div class="horizontal-list" id="list-historicos"></div>
                 </div>
                 <div class="section-wrapper">
                     <div class="section-title">Novo Testamento</div>
-                    <div class="horizontal-list" id="home-nt-list"></div>
-                </div>
-                <div class="section-wrapper">
-                    <div class="section-title">Antigo Testamento</div>
-                    <div class="horizontal-list" id="home-ot-list"></div>
+                    <div class="horizontal-list" id="list-evangelhos"></div>
                 </div>
             </div>
         </section>
 
         <section id="view-search" class="screen">
-            <div class="scroll-y pad-bot pad-top-header">
-                <div class="search-bar-container">
-                    <span class="material-icons-round">search</span>
-                    <input type="text" placeholder="Livros, versículos, temas..." onkeyup="app.render.filterBooks(this.value)">
+            <div class="scroll-y" style="padding-top: 80px;">
+                <div style="padding: 0 20px 20px;">
+                    <div class="search-bar-container">
+                        <span class="material-icons-round search-icon">search</span>
+                        <input type="text" id="search-input" placeholder="Buscar..." onkeyup="app.search.filter(this.value)">
+                        <button class="icon-btn-clear hidden" id="search-clear" onclick="app.search.clear()"><span class="material-icons-round">close</span></button>
+                    </div>
                 </div>
-                
+                <div id="explore-default-content">
+                    <div class="quick-grid">
+                        <div class="quick-btn"><span class="material-icons-round" style="color:#4dabf7">event_note</span><span>Planos</span></div>
+                        <div class="quick-btn"><span class="material-icons-round" style="color:#ff6b6b">play_circle</span><span>Vídeos</span></div>
+                        <div class="quick-btn"><span class="material-icons-round" style="color:#ffd43b">church</span><span>Igrejas</span></div>
+                        <div class="quick-btn"><span class="material-icons-round" style="color:#51cf66">public</span><span>Parceiros</span></div>
+                    </div>
+                    <div class="section-wrapper">
+                        <div class="featured-banner">
+                            <div style="z-index: 2;">
+                                <h3 style="font-size:18px; margin-bottom:5px;">Plano Anual 2025</h3>
+                                <p style="font-size:12px; opacity:0.8; margin-bottom:15px;">Desenvolva o hábito diário.</p>
+                                <button class="btn-banner-action">Começar</button>
+                            </div>
+                            <div class="banner-circle"></div>
+                        </div>
+                    </div>
+                    <div class="section-wrapper">
+                        <div class="section-title">Temas</div>
+                        <div class="topics-grid">
+                            <div class="topic-card" style="background-color: #8E44AD;">Amor</div>
+                            <div class="topic-card" style="background-color: #E74C3C;">Ansiedade</div>
+                            <div class="topic-card" style="background-color: #27AE60;">Cura</div>
+                            <div class="topic-card" style="background-color: #F39C12;">Esperança</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="section-wrapper">
-                    <div class="section-title">Todos os Livros</div>
+                    <div class="section-title" id="search-title">Todos os Livros</div>
+                    <div id="search-empty" class="hidden" style="text-align:center; padding: 40px 20px; color: #666;">
+                        <span class="material-icons-round" style="font-size: 48px; opacity:0.5;">sentiment_dissatisfied</span>
+                        <p>Nenhum livro encontrado.</p>
+                    </div>
                     <div class="books-grid" id="search-grid"></div>
                 </div>
             </div>
         </section>
 
         <section id="view-community" class="screen">
-            <div class="scroll-y pad-bot pad-top-header">
+            <div class="scroll-y" style="padding-top: 80px; padding-bottom: 80px;">
+                <div style="padding: 0 20px 20px; display:flex; justify-content:space-between; align-items:center;">
+                    <h2 style="font-size: 22px; font-weight: 800;">Ranking Semanal</h2>
+                    <button class="btn-banner-action" style="background:var(--surface-light); color:#fff; border:1px solid #333;">
+                        <span class="material-icons-round" style="font-size:16px; vertical-align:middle;">person_add</span> Add
+                    </button>
+                </div>
                 <div class="section-wrapper">
-                    <div class="section-title">Ranking de Chamas 🔥</div>
+                    <div class="my-rank-card">
+                        <div class="avatar-medium" style="background:var(--primary); color:#000; border: 2px solid #fff;">V</div>
+                        <div class="rank-info">
+                            <div style="font-weight:700; font-size:16px;">Você</div>
+                            <div style="font-size:12px; color:var(--primary);">Em chamas! 🔥</div>
+                        </div>
+                        <div class="rank-stats">
+                            <span class="material-icons-round" style="color:var(--primary); font-size:24px;">local_fire_department</span>
+                            <span id="comm-my-streak" style="font-weight:800; font-size:14px;">--</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-wrapper">
+                    <div class="section-title">Líderes</div>
                     <div class="friends-list" id="community-list"></div>
                 </div>
             </div>
         </section>
 
-        <section id="view-chat" class="screen overlay-screen">
+        <section id="view-chat" class="screen overlay-screen" onclick="app.chat.closeMenu()">
             <header class="chat-header">
                 <button class="icon-btn" onclick="app.nav.backToCommunity()"><span class="material-icons-round">arrow_back</span></button>
                 <div class="chat-user-info">
                     <div class="avatar-small" id="chat-avatar">A</div>
-                    <span id="chat-username">Ana Clara</span>
+                    <div style="display: flex; flex-direction: column;">
+                        <span id="chat-username" style="font-weight:700; line-height: 1.2;">Amigo</span>
+                        <div style="display: flex; align-items: center; gap: 3px; opacity: 0.8;">
+                            <span class="material-icons-round" id="chat-header-fire" style="font-size: 12px;">local_fire_department</span>
+                            <span id="chat-header-streak" style="font-size: 10px;">12 dias</span>
+                        </div>
+                    </div>
                 </div>
-                <button class="icon-btn"><span class="material-icons-round">more_vert</span></button>
+                <div style="position: relative;">
+                    <button class="icon-btn" onclick="event.stopPropagation(); app.chat.toggleMenu()">
+                        <span class="material-icons-round">more_vert</span>
+                    </button>
+                    <div id="chat-menu-dropdown" class="chat-menu hidden">
+                        <div class="menu-item" onclick="alert('Adicionar ao grupo')"><span class="material-icons-round">group_add</span> Add a um grupo</div>
+                        <div class="menu-item" onclick="alert('Contato fixado')"><span class="material-icons-round">push_pin</span> Fixar contato</div>
+                        <div class="menu-item" onclick="alert('Notificações silenciadas')"><span class="material-icons-round">notifications_off</span> Silenciar</div>
+                        <div class="menu-item" onclick="alert('Perfil visualizado')"><span class="material-icons-round">account_circle</span> Ver perfil</div>
+                        <div class="menu-divider"></div>
+                        <div class="menu-item text-red" onclick="alert('Usuário bloqueado')"><span class="material-icons-round">block</span> Bloquear</div>
+                    </div>
+                </div>
             </header>
-            
             <div class="chat-body" id="chat-messages"></div>
-
             <div class="chat-footer">
-                <button class="icon-btn"><span class="material-icons-round">add</span></button>
-                <input type="text" placeholder="Mensagem..." id="chat-input">
-                <button class="icon-btn send-btn" onclick="app.chat.send()"><span class="material-icons-round">send</span></button>
+                <button class="icon-btn"><span class="material-icons-round">add_circle</span></button>
+                <div class="chat-input-wrapper">
+                    <input type="text" placeholder="Mensagem..." id="chat-input">
+                    <span class="material-icons-round" style="color:#666; font-size:20px; margin-right:10px;">sentiment_satisfied</span>
+                </div>
+                <button class="icon-btn send-btn" onclick="app.chat.send()">
+                    <span class="material-icons-round" style="font-size: 28px;">send</span>
+                </button>
             </div>
         </section>
 
         <section id="view-profile" class="screen">
-            <div class="scroll-y pad-bot pad-top-header">
-                <div class="profile-header">
-                    <div class="avatar-large">J</div>
-                    <h2>João Silva</h2>
-                    <p>Membro desde 2024</p>
-                </div>
-
-                <div class="streak-timeline-container">
-                    <h3 class="streak-title">Sua Sequência</h3>
-                    <div class="streak-steps">
-                        <div class="step active"><span class="material-icons-round step-icon">local_fire_department</span><span class="step-label">3d</span></div>
-                        <div class="step active"><span class="material-icons-round step-icon">local_fire_department</span><span class="step-label">10d</span></div>
-                        <div class="step current"><span class="material-icons-round step-icon">local_fire_department</span><span class="step-label">30d</span></div>
-                        <div class="step"><span class="material-icons-round step-icon">local_fire_department</span><span class="step-label">100d</span></div>
-                        <div class="step"><span class="material-icons-round step-icon">local_fire_department</span><span class="step-label">200d</span></div>
-                    </div>
-                    <p class="streak-msg">Faltam 18 dias para o próximo nível!</p>
-                </div>
-
-                <div class="section-wrapper">
-                    <div class="section-title">Estatísticas</div>
-                    <div class="stats-row">
-                        <div class="stat-box"><span class="num">42</span><small>Lidos</small></div>
-                        <div class="stat-box"><span class="num">12</span><small>Dias</small></div>
-                        <div class="stat-box"><span class="num">5</span><small>Notas</small></div>
+            <div class="scroll-y" style="padding-bottom: 80px;">
+                <div class="profile-top-nav">
+                    <button class="btn-share-profile">
+                        <span class="material-icons-round">qr_code</span> Compartilhar perfil
+                    </button>
+                    <div class="profile-settings-icons">
+                        <span class="material-icons-round">settings</span>
+                        <span class="material-icons-round">menu</span>
                     </div>
                 </div>
-                
-                <button class="btn-logout" onclick="app.auth.logout()">Sair da Conta</button>
+
+                <div class="profile-header-new">
+                    <div class="profile-info-left">
+                        <h1>Abner Oliveira</h1>
+                        <button class="btn-add-friends">Adicionar amigos</button>
+                    </div>
+                    <div class="profile-avatar-container">
+                        <div class="avatar-xl">A</div>
+                        <div class="avatar-edit-icon"><span class="material-icons-round">photo_camera</span></div>
+                    </div>
+                </div>
+
+                <div style="padding: 0 20px 20px;">
+                    <button class="btn-church-add">
+                        <span class="material-icons-round">add_circle_outline</span> Adicionar sua igreja
+                    </button>
+                </div>
+
+                <div class="profile-actions-grid">
+                    <div class="action-box"><span class="material-icons-round">bookmark_border</span><span>Salvo</span></div>
+                    <div class="action-box"><span class="material-icons-round">volunteer_activism</span><span>Oração</span></div>
+                    <div class="action-box"><span class="material-icons-round">favorite_border</span><span>Doar</span></div>
+                </div>
+
+                <div class="stats-section">
+                    <div class="stat-card-row">
+                        <div class="stat-text">
+                            <span class="stat-value">1</span>
+                            <span class="stat-label">Perseverança no Aplicativo</span>
+                        </div>
+                        <span class="material-icons-round" style="color: #fff;">bolt</span>
+                    </div>
+                    <div class="stat-card-row badge-container">
+                        <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:10px;">
+                            <div class="stat-text">
+                                <span class="stat-value">10</span>
+                                <span class="stat-label">Medalhas</span>
+                            </div>
+                            <span class="stat-value" style="font-size:16px;">8</span>
+                        </div>
+                        <div class="badge-scroller">
+                            <div class="badge-item gold"><span class="material-icons-round">emoji_events</span></div>
+                            <div class="badge-item blue"><span class="material-icons-round">water_drop</span></div>
+                            <div class="badge-item bronze"><span class="material-icons-round">menu_book</span></div>
+                            <div class="badge-item silver"><span class="material-icons-round">edit</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="activity-section">
+                    <h3 style="padding: 0 20px 10px;">Atividade</h3>
+                    <div class="activity-tabs horizontal-list">
+                        <button class="tab-pill active">Todos</button>
+                        <button class="tab-pill">Destaques</button>
+                        <button class="tab-pill">Anotações</button>
+                        <button class="tab-pill">Planos</button>
+                    </div>
+                    <div id="profile-feed" class="profile-feed-list">
+                    </div>
+                </div>
+
+                <div style="padding: 20px; text-align: center;">
+                    <button class="btn-logout-text" onclick="app.auth.logout()">Sair da conta</button>
+                </div>
             </div>
         </section>
+
+        <div id="reader-overlay" class="screen reader-modal">
+            <div class="reader-top">
+                <button class="icon-btn" onclick="app.reader.close()"><span class="material-icons-round">arrow_back</span></button>
+                <span class="reader-title-header" id="reader-header-title">Leitura</span>
+                <button class="icon-btn"><span class="material-icons-round">text_format</span></button>
+            </div>
+            <div class="reader-text-area scroll-y" id="reader-content"></div>
+            <div class="reader-fab" onclick="app.reader.finish()"><span class="material-icons-round">check</span></div>
+        </div>
 
         <nav class="bottom-nav" id="main-nav">
             <button class="nav-item active" onclick="app.nav.goTo('home')">
@@ -155,17 +283,8 @@
             </button>
         </nav>
 
-        <div id="reader-overlay" class="screen reader-modal">
-            <div class="reader-top">
-                <button class="icon-btn" onclick="app.reader.close()"><span class="material-icons-round">arrow_back</span></button>
-                <span class="reader-title-header" id="reader-header-title">Gênesis 1</span>
-                <button class="icon-btn"><span class="material-icons-round">text_format</span></button>
-            </div>
-            <div class="reader-text-area scroll-y" id="reader-content"></div>
-            <div class="reader-fab" onclick="app.reader.finish()"><span class="material-icons-round">check</span></div>
-        </div>
-
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
