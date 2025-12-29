@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lumen App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="app">
+
+        <section id="view-login" class="screen active">
+            <div class="login-content">
+                <div class="logo-area">
+                    <span class="material-icons-round logo-fire">local_fire_department</span>
+                    <h1>Lumen</h1>
+                    <p>Sua chama diária na Palavra.</p>
+                </div>
+                <div class="login-actions">
+                    <button class="btn-primary full" onclick="app.auth.login()">Entrar com Google</button>
+                    <button class="btn-secondary full">Entrar com Email</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-home" class="screen">
+            <header class="top-bar">
+                <div class="user-welcome">
+                    <small>Paz, João</small>
+                    <div class="fire-badge">
+                        <span class="material-icons-round fire-icon level-3">local_fire_department</span>
+                        <span>12 dias</span>
+                    </div>
+                </div>
+                <button class="icon-btn"><span class="material-icons-round">notifications</span></button>
+            </header>
+
+            <div class="scroll-content">
+                <div class="hero-card" onclick="app.reader.open('gn', 1)">
+                    <div class="hero-bg"></div>
+                    <div class="hero-info">
+                        <span class="tag">Leitura de Hoje</span>
+                        <h2>Gênesis 1</h2>
+                        <button class="btn-hero"> Ler Agora</button>
+                    </div>
+                </div>
+
+                <div class="section-title"><h3>Continue Lendo</h3></div>
+                <div class="horizontal-list" id="home-continue-list">
+                    </div>
+
+                <div class="section-title"><h3>Antigo Testamento</h3></div>
+                <div class="horizontal-list" id="home-ot-list"></div>
+            </div>
+        </section>
+
+        <section id="view-bible" class="screen">
+            <header class="top-bar sticky">
+                <h2>Biblioteca</h2>
+                <input type="text" placeholder="Buscar livro..." class="search-input">
+            </header>
+            <div class="scroll-content pad-bottom">
+                <div class="bible-grid" id="bible-grid-list">
+                    </div>
+            </div>
+        </section>
+
+        <section id="view-friends" class="screen">
+            <header class="top-bar">
+                <h2>Comunidade</h2>
+                <button class="icon-btn"><span class="material-icons-round">person_add</span></button>
+            </header>
+            <div class="scroll-content pad-bottom">
+                <div class="friends-list" id="friends-list-container">
+                    </div>
+            </div>
+        </section>
+
+        <section id="view-chat" class="screen overlay-screen">
+            <header class="chat-header">
+                <button class="icon-btn" onclick="app.nav.goBack()"><span class="material-icons-round">arrow_back</span></button>
+                <div class="chat-info">
+                    <div class="shared-fire">
+                        <span class="material-icons-round fire-shared level-2">local_fire_department</span>
+                        <span class="streak-shared">5 dias</span>
+                    </div>
+                    <span class="chat-name">Ana Clara</span>
+                </div>
+                <button class="icon-btn"><span class="material-icons-round">more_vert</span></button>
+            </header>
+            
+            <div class="chat-body" id="chat-messages">
+                </div>
+
+            <div class="chat-footer">
+                <button class="btn-plus" onclick="alert('Menu Espiritual: Enviar Versículo, Oração...')">+</button>
+                <input type="text" placeholder="Digite uma mensagem...">
+                <button class="btn-send"><span class="material-icons-round">send</span></button>
+            </div>
+        </section>
+
+        <section id="view-profile" class="screen">
+            <div class="scroll-content pad-bottom">
+                <div class="profile-header">
+                    <div class="avatar-large">J</div>
+                    <h2>João Silva</h2>
+                    <p>Guardião da Chama</p>
+                </div>
+                
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <span class="num">45</span>
+                        <span class="lbl">Capítulos</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="num">12</span>
+                        <span class="lbl">Dias Seguidos</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="num">8</span>
+                        <span class="lbl">Notas</span>
+                    </div>
+                </div>
+
+                <div class="section-title"><h3>Meu Tesouro (Notas)</h3></div>
+                <div class="notes-grid" id="profile-notes">
+                    </div>
+            </div>
+        </section>
+
+        <div id="reader-overlay" class="reader-modal">
+            <header class="reader-top">
+                <button class="icon-btn" onclick="app.reader.close()"><span class="material-icons-round">close</span></button>
+                <div class="reader-meta">
+                    <span id="reader-title">Gênesis</span>
+                    <small id="reader-chapter">Capítulo 1</small>
+                </div>
+                <button class="icon-btn">Aa</button>
+            </header>
+            
+            <div class="reader-text-area" id="reader-content">
+                </div>
+
+            <div class="reader-actions-bar">
+                <button class="btn-finish" onclick="app.reader.finish()">
+                    <span class="material-icons-round">check</span> Concluir Leitura
+                </button>
+            </div>
+
+            <div id="selection-menu" class="selection-menu hidden">
+                <div class="colors">
+                    <div class="dot yellow" onclick="app.reader.highlight('yellow')"></div>
+                    <div class="dot green" onclick="app.reader.highlight('green')"></div>
+                    <div class="dot red" onclick="app.reader.highlight('red')"></div>
+                </div>
+                <div class="sep"></div>
+                <button class="btn-note" onclick="app.reader.openNote()">
+                    <span class="material-icons-round">edit</span>
+                </button>
+            </div>
+        </div>
+
+        <nav class="bottom-nav" id="main-nav">
+            <button class="nav-item active" onclick="app.nav.goTo('home')">
+                <span class="material-icons-round">home</span>
+                <span>Início</span>
+            </button>
+            <button class="nav-item" onclick="app.nav.goTo('bible')">
+                <span class="material-icons-round">menu_book</span>
+                <span>Bíblia</span>
+            </button>
+            <button class="nav-item" onclick="app.nav.goTo('friends')">
+                <span class="material-icons-round">group</span>
+                <span>Comunidade</span>
+            </button>
+            <button class="nav-item" onclick="app.nav.goTo('profile')">
+                <span class="material-icons-round">person</span>
+                <span>Perfil</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

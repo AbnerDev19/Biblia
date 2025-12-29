@@ -1,0 +1,476 @@
+:root {
+  --bg: #121212;
+  --surface: #1E1E1E;
+  --surface-light: #2C2C2C;
+  --primary: #FFC107;
+  /* Amarelo Fogo */
+  --text-main: #FFFFFF;
+  --text-sec: #A0A0A0;
+  --fire-red: #FF6B6B;
+  --fire-orange: #FF9F43;
+  --fire-blue: #54A0FF;
+  --nav-height: 65px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* LAYOUT E NAVEGAÇÃO */
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding-bottom: var(--nav-height);
+  /* Espaço para nav bar */
+  z-index: 1;
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.overlay-screen {
+  z-index: 10;
+  padding-bottom: 0;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.overlay-screen.active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.scroll-content {
+  overflow-y: auto;
+  flex: 1;
+  padding: 20px;
+}
+
+.pad-bottom {
+  padding-bottom: 80px;
+}
+
+/* NAV BAR */
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: var(--nav-height);
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 5;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: var(--text-sec);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+}
+
+.nav-item span.material-icons-round {
+  font-size: 24px;
+}
+
+.nav-item.active {
+  color: var(--primary);
+}
+
+/* COMPONENTES GERAIS */
+.btn-primary {
+  background: var(--primary);
+  color: #000;
+  border: none;
+  padding: 15px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: var(--surface-light);
+  color: #fff;
+  border: none;
+  padding: 15px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.full {
+  width: 100%;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.section-title h3 {
+  margin: 25px 0 15px;
+  font-size: 18px;
+  color: #fff;
+}
+
+/* TELA LOGIN */
+#view-login {
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding-bottom: 0;
+}
+
+.logo-area {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.logo-fire {
+  font-size: 80px;
+  color: var(--primary);
+  text-shadow: 0 0 30px var(--fire-orange);
+  margin-bottom: 20px;
+}
+
+.login-actions {
+  width: 100%;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* TELA HOME */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 10px;
+  background: var(--bg);
+}
+
+.fire-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 193, 7, 0.1);
+  padding: 5px 10px;
+  border-radius: 20px;
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.hero-card {
+  height: 300px;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.hero-bg {
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80') center/cover;
+}
+
+.hero-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(to top, #000, transparent);
+}
+
+.hero-info h2 {
+  font-size: 32px;
+  margin: 5px 0 15px;
+}
+
+.btn-hero {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+}
+
+.horizontal-list {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+}
+
+.book-card {
+  min-width: 110px;
+}
+
+.book-cover {
+  width: 110px;
+  height: 160px;
+  background: var(--surface);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #555;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 4px;
+  background: #333;
+  margin-top: 8px;
+  border-radius: 2px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--fire-red);
+  width: 0%;
+}
+
+/* TELA CHAT */
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: var(--surface);
+  border-bottom: 1px solid #333;
+}
+
+.shared-fire {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.fire-shared {
+  color: var(--fire-orange);
+  text-shadow: 0 0 10px var(--fire-orange);
+}
+
+.streak-shared {
+  font-size: 10px;
+  color: var(--primary);
+}
+
+.chat-body {
+  flex: 1;
+  background: #0f0f0f;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.msg {
+  padding: 10px 15px;
+  border-radius: 15px;
+  max-width: 80%;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.msg.me {
+  background: var(--primary);
+  color: #000;
+  align-self: flex-end;
+  border-bottom-right-radius: 2px;
+}
+
+.msg.them {
+  background: var(--surface-light);
+  color: #fff;
+  align-self: flex-start;
+  border-bottom-left-radius: 2px;
+}
+
+.msg.spiritual {
+  border: 1px solid var(--primary);
+  background: rgba(255, 193, 7, 0.1);
+  color: var(--primary);
+}
+
+.chat-footer {
+  padding: 10px;
+  background: var(--surface);
+  display: flex;
+  gap: 10px;
+}
+
+.chat-footer input {
+  flex: 1;
+  background: var(--surface-light);
+  border: none;
+  padding: 12px;
+  border-radius: 20px;
+  color: #fff;
+}
+
+/* LEITOR (READER) */
+.reader-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.reader-modal.open {
+  transform: translateY(0);
+}
+
+.reader-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: var(--surface);
+}
+
+.reader-text-area {
+  padding: 25px;
+  font-family: 'Lora', serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #ddd;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.verse {
+  margin-bottom: 10px;
+  display: inline;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.verse.selected {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.verse.highlight-yellow {
+  background: rgba(255, 193, 7, 0.3);
+}
+
+.reader-actions-bar {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-finish {
+  background: var(--surface-light);
+  color: #fff;
+  border: 1px solid #444;
+  padding: 12px 30px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* MENU SELEÇÃO */
+.selection-menu {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  padding: 10px 20px;
+  border-radius: 50px;
+  display: flex;
+  gap: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.selection-menu.hidden {
+  display: none;
+}
+
+.dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dot.yellow {
+  background: var(--primary);
+}
+
+.dot.green {
+  background: #1DD1A1;
+}
+
+.dot.red {
+  background: #FF6B6B;
+}
+
+.sep {
+  width: 1px;
+  background: #555;
+}
+
+.btn-note {
+  background: none;
+  border: none;
+  color: #fff;
+}
+
+/* UTILITÁRIOS */
+.hidden {
+  display: none !important;
+}
