@@ -1,172 +1,79 @@
-/* --- DADOS FAKES (MOCKUP) --- */
 const mockData = {
     books: [
-        { id: 'gn', name: 'Gênesis', abbrev: 'Gn', category: 'ot', progress: 10 },
-        { id: 'ex', name: 'Êxodo', abbrev: 'Êx', category: 'ot', progress: 0 },
-        { id: 'sl', name: 'Salmos', abbrev: 'Sl', category: 'ot', progress: 45 },
-        { id: 'mt', name: 'Mateus', abbrev: 'Mt', category: 'nt', progress: 5 },
-        { id: 'rm', name: 'Romanos', abbrev: 'Rm', category: 'nt', progress: 0 },
-    ],
-    friends: [
-        { id: 1, name: 'Ana Clara', streak: 5, fireColor: 'orange', avatar: 'A', status: 'Lendo Salmos' },
-        { id: 2, name: 'Pedro H.', streak: 42, fireColor: 'green', avatar: 'P', status: 'Firme na rocha' },
-        { id: 3, name: 'Lucas', streak: 1, fireColor: 'red', avatar: 'L', status: 'Recomeçando' }
-    ],
-    chatHistory: [
-        { type: 'them', text: 'Bom dia! Leu hoje?' },
-        { type: 'me', text: 'Sim! Gênesis 1 é tremendo.' },
-        { type: 'spiritual', text: 'Versículo Compartilhado: "Haja luz, e houve luz."', sender: 'me' }
+        { id: 'gn', name: 'Gênesis', img: 'https://images.unsplash.com/photo-1518331483807-f6adc0f062a9?w=300&q=80', progress: 40 },
+        { id: 'ex', name: 'Êxodo', img: 'https://images.unsplash.com/photo-1555677284-6a6f971635e0?w=300&q=80', progress: 10 },
+        { id: 'sl', name: 'Salmos', img: 'https://images.unsplash.com/photo-1498931299472-f7a63a5a1cfa?w=300&q=80', progress: 85 },
+        { id: 'mt', name: 'Mateus', img: 'https://images.unsplash.com/photo-1628510118714-d2124aea4b8a?w=300&q=80', progress: 0 },
+        { id: 'ap', name: 'Apocalipse', img: 'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=300&q=80', progress: 0 },
+        { id: 'jo', name: 'João', img: 'https://images.unsplash.com/photo-1529335764857-3f1164d1ea24?w=300&q=80', progress: 0 },
     ]
 };
 
-/* --- APLICAÇÃO PRINCIPAL --- */
 const app = {
-    state: {
-        currentTab: 'home',
-        selectedVerse: null,
-    },
-
     init: () => {
-        // Inicializa listeners e renderiza listas
-        app.render.homeLists();
-        app.render.bibleGrid();
-        app.render.friendsList();
-        app.render.chat();
-    },
-
-    auth: {
-        login: () => {
-            // Simula login e vai para Home
-            document.getElementById('view-login').classList.remove('active');
-            app.nav.goTo('home');
-        }
+        app.render.posters('home-continue-list', mockData.books.slice(0,3));
+        app.render.posters('home-popular-list', mockData.books.reverse());
+        app.render.posters('home-nt-list', mockData.books.slice(3,6));
     },
 
     nav: {
         goTo: (tabId) => {
-            // 1. Atualiza Nav Bar
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            // Lógica simples para achar o índice correto (apenas visual)
-            const map = { 'home': 0, 'bible': 1, 'friends': 2, 'profile': 3 };
-            if (map[tabId] !== undefined) {
-                document.querySelectorAll('.nav-item')[map[tabId]].classList.add('active');
-                document.getElementById('main-nav').classList.remove('hidden');
-            }
-
-            // 2. Troca Telas
             document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
             document.getElementById(`view-${tabId}`).classList.add('active');
             
-            // Caso especial para Chat (overlay)
-            if (tabId === 'chat') {
-                document.getElementById('view-chat').classList.add('active');
-                document.getElementById('main-nav').classList.add('hidden'); // Esconde nav no chat
-            }
-        },
-        goBack: () => {
-            document.getElementById('view-chat').classList.remove('active');
-            document.getElementById('main-nav').classList.remove('hidden');
-            app.nav.goTo('friends');
+            // Atualiza Nav Icons
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            // Simples mapeamento para demo
+            const map = {'home':0, 'search':1, 'profile':3};
+            if(map[tabId] !== undefined) document.querySelectorAll('.nav-item')[map[tabId]].classList.add('active');
         }
     },
 
     reader: {
-        open: (bookId, chapter) => {
-            document.getElementById('reader-overlay').classList.add('open');
-            document.getElementById('reader-content').innerHTML = app.reader.generateText();
+        open: (bookId, ch) => {
+            const overlay = document.getElementById('reader-overlay');
+            overlay.classList.add('active');
+            overlay.style.pointerEvents = 'auto'; // Força interação
+            
+            // Gera Texto Lorem Ipsum Bíblico
+            let text = `<h2>Capítulo 1</h2><br>`;
+            for(let i=1; i<=20; i++) {
+                text += `<sup>${i}</sup> No princípio era o Verbo, e o Verbo estava com Deus, e o Verbo era Deus. `;
+            }
+            document.getElementById('reader-content').innerHTML = text;
         },
         close: () => {
-            document.getElementById('reader-overlay').classList.remove('open');
-            app.reader.deselect();
-        },
-        generateText: () => {
-            // Gera texto fake de lorem ipsum com estrutura de versículo
-            let html = '';
-            for(let i=1; i<=15; i++) {
-                html += `<span class="verse" id="v${i}" onclick="app.reader.select(this)">
-                    <sup>${i}</sup> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Deus lux est. 
-                </span> `;
-            }
-            return html;
-        },
-        select: (el) => {
-            app.reader.deselect();
-            el.classList.add('selected');
-            app.state.selectedVerse = el;
-            document.getElementById('selection-menu').classList.remove('hidden');
-        },
-        deselect: () => {
-            if(app.state.selectedVerse) app.state.selectedVerse.classList.remove('selected');
-            document.getElementById('selection-menu').classList.add('hidden');
-            app.state.selectedVerse = null;
-        },
-        highlight: (color) => {
-            if(app.state.selectedVerse) {
-                app.state.selectedVerse.classList.add(`highlight-${color}`);
-                app.reader.deselect();
-            }
-        },
-        finish: () => {
-            alert("Capítulo Concluído! O Foguinho cresceu 🔥");
-            app.reader.close();
+            const overlay = document.getElementById('reader-overlay');
+            overlay.classList.remove('active');
+            overlay.style.pointerEvents = 'none';
         }
     },
 
     render: {
-        homeLists: () => {
-            const container = document.getElementById('home-continue-list');
-            mockData.books.slice(0,3).forEach(book => {
-                container.innerHTML += `
-                    <div class="book-card" onclick="app.reader.open('${book.id}', 1)">
-                        <div class="book-cover">${book.abbrev}</div>
-                        <div class="progress-bar"><div class="progress-fill" style="width:${book.progress}%"></div></div>
-                        <small>${book.name}</small>
-                    </div>`;
-            });
-        },
-        bibleGrid: () => {
-            const container = document.getElementById('bible-grid-list');
-            // Estilo simples de lista para bíblia
-            mockData.books.forEach(book => {
-                const item = document.createElement('div');
-                item.style.padding = '15px';
-                item.style.borderBottom = '1px solid #333';
-                item.style.display = 'flex';
-                item.style.justifyContent = 'space-between';
-                item.innerHTML = `<b>${book.name}</b> <span style="color:#666">Ver</span>`;
-                item.onclick = () => app.reader.open(book.id, 1);
-                container.appendChild(item);
-            });
-        },
-        friendsList: () => {
-            const container = document.getElementById('friends-list-container');
-            mockData.friends.forEach(friend => {
-                // Define cor do icone baseado no mock
-                const colorMap = { 'orange': '#FF9F43', 'green': '#1DD1A1', 'red': '#FF6B6B' };
-                const color = colorMap[friend.fireColor];
+        posters: (containerId, list) => {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            list.forEach(book => {
+                // Se não tiver imagem, usa cor sólida
+                const imgStyle = book.img ? `background: url('${book.img}') center/cover` : `background: #333`;
                 
+                // Barra de progresso estilo Netflix (vermelha na base)
+                const progressBar = book.progress > 0 
+                    ? `<div class="poster-progress"><div class="poster-fill" style="width:${book.progress}%"></div></div>` 
+                    : '';
+
                 container.innerHTML += `
-                    <div class="friend-card" style="display:flex; align-items:center; background:#1e1e1e; padding:15px; border-radius:12px; margin-bottom:10px; cursor:pointer" onclick="app.nav.goTo('chat')">
-                        <div style="width:40px; height:40px; background:#333; border-radius:50%; display:flex; justify-content:center; align-items:center; font-weight:bold; margin-right:15px;">${friend.avatar}</div>
-                        <div style="flex:1">
-                            <h4 style="margin:0">${friend.name}</h4>
-                            <small style="color:#888">${friend.status}</small>
+                    <div class="poster-card" onclick="app.reader.open('${book.id}', 1)">
+                        <div class="poster-img" style="${imgStyle}">
+                            ${!book.img ? book.name : ''}
+                            ${progressBar}
                         </div>
-                        <div style="text-align:center">
-                            <span class="material-icons-round" style="color:${color}">local_fire_department</span>
-                            <div style="font-size:10px">${friend.streak} dias</div>
-                        </div>
-                    </div>`;
-            });
-        },
-        chat: () => {
-            const container = document.getElementById('chat-messages');
-            mockData.chatHistory.forEach(msg => {
-                container.innerHTML += `<div class="msg ${msg.type}">${msg.text}</div>`;
+                        <div style="font-size:12px; color:#aaa; margin-top:4px;">${book.name}</div>
+                    </div>
+                `;
             });
         }
     }
 };
 
-// Start
 document.addEventListener('DOMContentLoaded', app.init);
