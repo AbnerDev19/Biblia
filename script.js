@@ -70,11 +70,11 @@ const fullBibleData = [
 
 /* --- DADOS DA COMUNIDADE --- */
 const friendsData = [
-    { id: 1, name: 'Pedro H.', streak: 55, status: 'god', msg: 'Lendo Salmos' },
-    { id: 2, name: 'Ana Clara', streak: 15, status: 'fire', msg: 'Firme na rocha!' },
-    { id: 3, name: 'Lucas T.', streak: 3, status: 'frozen', msg: 'Voltando...' },
-    { id: 4, name: 'Marcos', streak: 0, status: 'frozen', msg: 'Precisa de oração' },
-    { id: 5, name: 'Julia', streak: 12, status: 'fire', msg: 'Lendo Mateus' }
+    { id: 1, name: 'Hadassa', streak: 52, status: 'fire', msg: 'incentivou-te de volta · 1h' },
+    { id: 2, name: 'gi', streak: 9, status: 'fire', msg: 'incentivou-te de volta · 1h' },
+    { id: 3, name: 'daisilva_', streak: 6, status: 'frozen', msg: 'Enviado há 1h' },
+    { id: 4, name: 'geovanna', streak: 6, status: 'fire', msg: 'Enviado há 1h' },
+    { id: 5, name: 'Pedro H.', streak: 55, status: 'god', msg: 'Lendo Salmos' }
 ];
 
 /* --- DADOS DO PERFIL (MOCK) --- */
@@ -235,22 +235,42 @@ const app = {
             const container = document.getElementById('community-list');
             if (!container) return;
             container.innerHTML = '';
-            const sorted = [...friendsData].sort((a, b) => b.streak - a.streak);
-            sorted.forEach((friend, index) => {
-                const rank = index + 1;
-                let rankClass = '';
-                if (rank === 1) rankClass = 'top-1';
-                else if (rank === 2) rankClass = 'top-2';
-                else if (rank === 3) rankClass = 'top-3';
-                let fireClass = 'fire';
-                if (friend.status === 'god') fireClass = 'gold';
-                if (friend.status === 'frozen') fireClass = 'blue';
-                container.innerHTML += `<div class="friend-row" onclick="app.chat.open('${friend.id}')"><div class="rank-num ${rankClass}">#${rank}</div><div class="avatar-small">${friend.name[0]}</div><div class="rank-info"><h4>${friend.name}</h4><p>${friend.msg}</p></div><div class="rank-stats"><span class="material-icons-round fire-status ${fireClass}">local_fire_department</span><span style="font-size:10px; font-weight:bold;">${friend.streak}</span></div></div>`;
+
+            // NOVO RENDER DA COMUNIDADE (Estilo Chat/Lista)
+            friendsData.forEach((friend) => {
+                let fireColorClass = 'fire-red'; // Padrao (laranja/vermelho)
+                if (friend.status === 'frozen') fireColorClass = 'fire-blue'; // Cinza/Azul se estiver frio
+
+                // Icone da direita varia
+                const iconRight = friend.status === 'frozen' ? 'photo_camera' : 'photo_camera';
+
+                container.innerHTML += `
+                    <div class="friend-row" onclick="app.chat.open('${friend.id}')">
+                        <div class="friend-avatar-container">
+                            <div class="avatar-chat-list">${friend.name[0]}</div>
+                        </div>
+                        <div class="friend-info-col">
+                            <div class="friend-name-line">
+                                <span class="friend-name">${friend.name}</span>
+                                <div class="friend-streak-badge ${fireColorClass}">
+                                    <span class="material-icons-round" style="font-size:14px;">local_fire_department</span>
+                                    <span class="friend-streak-val">${friend.streak}</span>
+                                </div>
+                            </div>
+                            <div class="friend-msg-preview">${friend.msg}</div>
+                        </div>
+                        <div class="friend-action-right">
+                            <span class="material-icons-round" style="font-size:22px; border:2px solid #666; border-radius:8px; padding:2px;">${iconRight}</span>
+                        </div>
+                    </div>`;
             });
-            document.getElementById('comm-my-streak').innerText = app.state.userStreak;
         },
 
         profile: () => {
+            // Atualizar o foguinho do perfil com o dado real
+            const streakDisplay = document.getElementById('profile-streak-display');
+            if (streakDisplay) streakDisplay.innerText = app.state.userStreak;
+
             const container = document.getElementById('profile-feed');
             if (!container) return;
             container.innerHTML = '';
@@ -274,7 +294,12 @@ const app = {
         },
 
         checkHeroButton: () => { /* Hero logic */ },
-        updateStreakUI: () => { document.getElementById('header-streak-count').innerText = app.state.userStreak; }
+        updateStreakUI: () => {
+            document.getElementById('header-streak-count').innerText = app.state.userStreak;
+            // Atualiza tambem o do perfil caso esteja na tela
+            const pStreak = document.getElementById('profile-streak-display');
+            if (pStreak) pStreak.innerText = app.state.userStreak;
+        }
     },
 
     nav: {
@@ -282,7 +307,6 @@ const app = {
             document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
             document.getElementById(`view-${tabId}`).classList.add('active');
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            // CORRIGIDO: Mapeamento para 'search'
             const map = { 'home': 0, 'search': 1, 'community': 2, 'profile': 3 };
             if (map[tabId] !== undefined) document.querySelectorAll('.nav-item')[map[tabId]].classList.add('active');
 
@@ -300,10 +324,24 @@ const app = {
     reader: {
         open: (bookId, chapter) => {
             const book = fullBibleData.find(b => b.id === bookId) || { name: 'Leitura' };
-            document.getElementById('reader-header-title').innerText = `${book.name} ${chapter}`;
-            let html = '';
-            for (let i = 1; i <= 20; i++) html += `<p><sup style="color:#FFB300; margin-right:5px; font-weight:bold;">${i}</sup> No princípio era o Verbo...</p>`;
-            document.getElementById('reader-content').innerHTML = html;
+
+            // Renderizacao limpa e tipografica
+            let html = `
+                <div class="reader-book-title">${book.name}</div>
+                <div class="reader-big-chapter">${chapter}</div>
+            `;
+
+            // Texto ficticio estilo Biblia
+            html += `<p class="reader-verse-p"><sup class="verse-num">1</sup> Permaneça o amor fraternal.</p>`;
+            html += `<p class="reader-verse-p"><sup class="verse-num">2</sup> Não vos esqueçais da hospitalidade, porque, por ela, alguns, não o sabendo, hospedaram anjos.</p>`;
+            html += `<p class="reader-verse-p"><sup class="verse-num">3</sup> Lembrai-vos dos presos, como se estivésseis presos com eles, e dos maltratados, como sendo-o vós mesmos também no corpo.</p>`;
+
+            // Loop para encher linguiça visualmente
+            for (let i = 4; i <= 8; i++) {
+                html += `<p class="reader-verse-p"><sup class="verse-num">${i}</sup> Venerado seja entre todos o matrimônio e o leito sem mácula; porém, aos que se dão à prostituição, e aos adúlteros, Deus os julgará.</p>`;
+            }
+
+            document.getElementById('reader-content-wrapper').innerHTML = html;
             document.getElementById('reader-overlay').classList.add('active');
         },
         close: () => document.getElementById('reader-overlay').classList.remove('active'),

@@ -28,9 +28,6 @@ body {
 
 /* --- CAMADAS (LAYERS) --- */
 
-
-/* Base: 1 | Nav: 60 | Header: 50 | Overlays: 2000 */
-
 .screen {
     position: absolute;
     top: 0;
@@ -44,7 +41,6 @@ body {
     pointer-events: none;
     transition: opacity 0.3s ease;
     z-index: 1;
-    /* Camada Base */
 }
 
 .screen.active {
@@ -54,13 +50,12 @@ body {
 }
 
 
-/* OVERLAY (CHAT/LEITOR) - DEVE FICAR ACIMA DE TUDO */
+/* OVERLAY (CHAT/LEITOR) */
 
 .overlay-screen {
     transform: translateX(100%);
     transition: transform 0.3s ease;
     z-index: 2000 !important;
-    /* Força ficar acima da Nav Bar */
     background: #141414;
 }
 
@@ -331,7 +326,7 @@ body {
 
 .quick-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 10px;
     padding: 0 20px 25px;
 }
@@ -384,23 +379,90 @@ body {
     font-size: 12px;
 }
 
+
+/* Temas e Cards */
+
 .topics-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
     padding-right: 20px;
 }
 
 .topic-card {
-    height: 60px;
-    border-radius: 8px;
+    height: 100px;
+    border-radius: 12px;
     display: flex;
-    align-items: flex-end;
-    padding: 10px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
     font-weight: 700;
     font-size: 14px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: var(--surface-light);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.topic-card:active {
+    transform: scale(0.96);
+}
+
+.topic-card span.material-icons-round {
+    font-size: 26px;
+    padding: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 5px;
+}
+
+.topic-label {
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    z-index: 2;
+}
+
+.topic-card.theme-love {
+    background: linear-gradient(135deg, #2a1518 0%, #1a1a1a 100%);
+    border-left: 3px solid #e91e63;
+}
+
+.topic-card.theme-love span.material-icons-round {
+    color: #e91e63;
+    background: rgba(233, 30, 99, 0.15);
+}
+
+.topic-card.theme-anxiety {
+    background: linear-gradient(135deg, #151e2a 0%, #1a1a1a 100%);
+    border-left: 3px solid #3498db;
+}
+
+.topic-card.theme-anxiety span.material-icons-round {
+    color: #3498db;
+    background: rgba(52, 152, 219, 0.15);
+}
+
+.topic-card.theme-healing {
+    background: linear-gradient(135deg, #152a1a 0%, #1a1a1a 100%);
+    border-left: 3px solid #2ecc71;
+}
+
+.topic-card.theme-healing span.material-icons-round {
+    color: #2ecc71;
+    background: rgba(46, 204, 113, 0.15);
+}
+
+.topic-card.theme-hope {
+    background: linear-gradient(135deg, #2a2215 0%, #1a1a1a 100%);
+    border-left: 3px solid #FFA000;
+}
+
+.topic-card.theme-hope span.material-icons-round {
+    color: #FFA000;
+    background: rgba(255, 160, 0, 0.15);
 }
 
 .books-grid {
@@ -416,151 +478,132 @@ body {
 }
 
 
-/* COMUNIDADE */
-
-.my-rank-card {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    background: linear-gradient(to right, #262626, #1f1f1f);
-    border-radius: 12px;
-    margin-right: 20px;
-    border: 1px solid #333;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
+/* --- COMUNIDADE (NOVO DESIGN ESTILO CHAT) --- */
 
 .friends-list {
     padding-right: 20px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0px;
+    /* Sem gap, borda separa */
 }
+
+
+/* Row estilo WhatsApp/Direct */
 
 .friend-row {
     display: flex;
     align-items: center;
-    padding: 12px 15px;
-    background: var(--surface);
-    border-radius: 12px;
+    padding: 15px 0;
+    background: transparent;
     cursor: pointer;
-    transition: background 0.2s;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .friend-row:active {
-    background: #222;
+    background: rgba(255, 255, 255, 0.03);
 }
 
-.rank-num {
-    font-size: 14px;
-    font-weight: 700;
-    color: #555;
-    width: 25px;
-    text-align: center;
-}
-
-.rank-num.top-1 {
-    color: #FFD700;
-    font-size: 18px;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-.rank-num.top-2 {
-    color: #C0C0C0;
-    font-size: 16px;
-}
-
-.rank-num.top-3 {
-    color: #CD7F32;
-    font-size: 16px;
-}
-
-.avatar-medium {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 800;
-    font-size: 18px;
+.friend-avatar-container {
+    position: relative;
     margin-right: 15px;
 }
 
-.avatar-small {
-    width: 40px;
-    height: 40px;
+.avatar-chat-list {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background: #444;
+    background: #333;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 700;
-    margin-right: 12px;
+    font-size: 18px;
+    color: #e0e0e0;
+    border: 1px solid #444;
 }
 
-.rank-info {
+
+/* Informações centrais */
+
+.friend-info-col {
     flex: 1;
-}
-
-.rank-info h4 {
-    margin: 0 0 4px;
-    font-size: 15px;
-}
-
-.rank-info p {
-    margin: 0;
-    font-size: 11px;
-    color: #888;
-}
-
-.rank-stats {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+.friend-name-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.friend-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+
+
+/* O Foguinho ao lado do nome */
+
+.friend-streak-badge {
+    display: flex;
     align-items: center;
     gap: 2px;
-    min-width: 40px;
+}
+
+.friend-streak-val {
+    font-weight: 700;
+    font-size: 14px;
 }
 
 
-/* Status Foguinho */
+/* Cores do fogo */
 
-.fire-status.gold {
-    background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.8));
-    font-size: 26px !important;
-}
-
-.fire-status.blue {
-    color: #00E5FF;
-    text-shadow: 0 0 8px #00E5FF;
-    opacity: 0.9;
-}
-
-.fire-status.fire {
+.fire-red {
     color: #FF4500;
-    filter: drop-shadow(0 0 2px #FF4500);
+}
+
+.fire-gold {
+    color: #FFD700;
+}
+
+.fire-blue {
+    color: #00E5FF;
+}
+
+.friend-msg-preview {
+    font-size: 14px;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+
+/* Ação na direita (Icone Camera) */
+
+.friend-action-right {
+    padding: 10px;
+    color: #666;
 }
 
 
 /* --- CHAT FULL SCREEN --- */
 
-
-/* Ajuste para ocupar toda a tela sem sobreposição */
-
 #view-chat {
     height: 100vh;
     padding: 0;
-    /* Remove padding padrão */
     display: flex;
     flex-direction: column;
 }
 
 .chat-header {
     height: 70px;
-    /* Mesma altura que o header principal ocuparia */
     background: var(--surface);
     border-bottom: 1px solid #222;
     display: flex;
@@ -568,7 +611,6 @@ body {
     padding: 0 10px;
     flex-shrink: 0;
     margin-top: 0;
-    /* Garante que fique no topo */
 }
 
 .chat-user-info {
@@ -582,7 +624,6 @@ body {
     flex: 1;
     background: #0b0b0b;
     padding: 15px 15px 80px 15px;
-    /* Padding bottom extra para garantir que ultima msg apareça */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -623,7 +664,6 @@ body {
     gap: 10px;
     align-items: center;
     z-index: 2001;
-    /* Acima do próprio painel de chat se precisar */
 }
 
 .chat-input-wrapper {
@@ -741,13 +781,14 @@ body {
 }
 
 
-/* Reader */
+/* --- LEITOR (NOVO DESIGN) --- */
 
 .reader-modal {
-    background: #141414;
+    background: #000;
+    /* Fundo preto puro conforme imagem */
     z-index: 3000;
     transform: translateY(100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -760,22 +801,74 @@ body {
     transform: translateY(0);
 }
 
-.reader-top {
+
+/* Header Minimalista (Só botões) */
+
+.reader-top-minimal {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    background: #141414;
-    border-bottom: 1px solid #222;
+    padding: 10px 15px;
+    background: transparent;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.reader-actions-right {
+    display: flex;
+    gap: 10px;
 }
 
 .reader-text-area {
-    padding: 30px 20px 80px;
+    padding: 60px 25px 80px;
     font-family: 'Lora', serif;
-    font-size: 20px;
-    line-height: 1.8;
+    /* Fonte com serifa */
     color: #dcdcdc;
+    height: 100%;
+    overflow-y: auto;
 }
+
+
+/* Estilos de tipografia do Leitor */
+
+.reader-book-title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.reader-big-chapter {
+    text-align: center;
+    font-size: 90px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 30px;
+}
+
+.reader-verse-p {
+    font-size: 19px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #e0e0e0;
+}
+
+.verse-num {
+    font-size: 10px;
+    color: #666;
+    vertical-align: top;
+    margin-right: 4px;
+    font-weight: bold;
+}
+
+
+/* Botão de concluir */
 
 .reader-fab {
     position: absolute;
@@ -783,21 +876,20 @@ body {
     right: 30px;
     width: 56px;
     height: 56px;
-    background: var(--primary);
+    background: #222;
+    border: 1px solid #333;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #000;
+    color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     cursor: pointer;
+    z-index: 20;
 }
 
 
-/* --- ESTILOS DO PERFIL (NOVO) --- */
-
-
-/* Top Bar */
+/* --- ESTILOS DO PERFIL (MANTIDOS) --- */
 
 .profile-top-nav {
     display: flex;
@@ -1041,7 +1133,7 @@ body {
 }
 
 
-/* FEED DE ATIVIDADE (ESTILO CARD) */
+/* FEED DE ATIVIDADE */
 
 .profile-feed-list {
     padding: 0 20px;
@@ -1148,4 +1240,947 @@ body {
     text-decoration: underline;
     font-size: 12px;
     cursor: pointer;
+}
+
+:root {
+    --bg: #090909;
+    /* Fundo mais profundo */
+    --surface: #121212;
+    --surface-light: #1E1E1E;
+    --surface-glass: rgba(18, 18, 18, 0.85);
+    /* Para efeito de vidro */
+    --primary: #FFB300;
+    --primary-glow: rgba(255, 179, 0, 0.3);
+    --text-main: #FFFFFF;
+    --text-sec: #A0A0A0;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --fire-gradient: linear-gradient(180deg, #FFB300 0%, #FF4500 100%);
+    --nav-height: 70px;
+    /* Um pouco mais alta para conforto */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* --- CAMADAS E TRANSIÇÕES --- */
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* Transição mais suave */
+    z-index: 1;
+}
+
+.screen.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 10;
+}
+
+.overlay-screen {
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    /* Curva de animação iOS */
+    z-index: 2000 !important;
+    background: var(--bg);
+}
+
+.overlay-screen.active {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.scroll-y {
+    overflow-y: auto;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 90px;
+    /* Espaço extra para a Nav Bar Flutuante */
+}
+
+
+/* --- HEADER FLUTUANTE --- */
+
+.streak-header-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.streak-header-bar>* {
+    pointer-events: auto;
+}
+
+.lumen-logo {
+    color: var(--primary);
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 15px var(--primary-glow);
+}
+
+.fire-streak-widget {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-subtle);
+    padding: 5px 12px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.fire-icon-main {
+    font-size: 18px;
+    background: var(--fire-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* --- UTILITÁRIOS --- */
+
+.hidden {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+/* --- HERO SECTION REFINADA --- */
+
+.hero-wrapper {
+    height: 60vh;
+    position: relative;
+    margin-bottom: 20px;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    overflow: hidden;
+    /* Arredonda a imagem */
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: transform 10s ease;
+    /* Efeito Ken Burns lento */
+}
+
+.hero-wrapper:hover .hero-bg-img {
+    transform: scale(1.05);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, #090909 5%, transparent 80%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 25px;
+}
+
+.tag-badge {
+    background: rgba(255, 179, 0, 0.2);
+    color: var(--primary);
+    border: 1px solid rgba(255, 179, 0, 0.3);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: inline-block;
+    backdrop-filter: blur(4px);
+}
+
+.hero-title {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 12px;
+    letter-spacing: -1.5px;
+    color: #fff;
+}
+
+.hero-desc {
+    font-size: 15px;
+    color: #ccc;
+    margin-bottom: 24px;
+    line-height: 1.5;
+    max-width: 90%;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-play,
+.btn-list {
+    flex: 1;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-play:active,
+.btn-list:active {
+    transform: scale(0.97);
+}
+
+.btn-play {
+    background: var(--primary);
+    color: #000;
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.btn-list {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* --- LISTAS E POSTERS --- */
+
+.section-wrapper {
+    padding: 0 0 40px 20px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+
+.horizontal-list {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-right: 20px;
+    scrollbar-width: none;
+}
+
+.horizontal-list::-webkit-scrollbar {
+    display: none;
+}
+
+.poster-card {
+    min-width: 115px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.poster-card:active {
+    transform: scale(0.95);
+}
+
+.poster-img {
+    width: 115px;
+    height: 170px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-subtle);
+}
+
+.poster-text-center {
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    z-index: 2;
+}
+
+.poster-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.poster-fill {
+    height: 100%;
+    background: var(--primary);
+}
+
+
+/* --- EXPLORAR --- */
+
+.search-bar-container {
+    background: var(--surface-light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    height: 50px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-bar-container input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    flex: 1;
+    height: 100%;
+}
+
+.search-icon {
+    color: #666;
+    margin-right: 10px;
+}
+
+.icon-btn-clear {
+    background: none;
+    border: none;
+    color: #666;
+}
+
+.quick-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 0 20px 25px;
+}
+
+.quick-btn {
+    background: var(--surface-light);
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    border: 1px solid var(--border-subtle);
+    cursor: pointer;
+}
+
+.featured-banner {
+    margin: 0 20px 0 0;
+    background: linear-gradient(135deg, #1c2630, #000000);
+    border-radius: 16px;
+    padding: 25px 20px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--border-subtle);
+}
+
+.btn-banner-action {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 700;
+    align-self: flex-start;
+    cursor: pointer;
+    font-size: 13px;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+
+/* TEMAS (Visual Premium) */
+
+.topics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding-right: 20px;
+}
+
+.topic-card {
+    height: 110px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 18px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: var(--surface-light);
+    border: 1px solid var(--border-subtle);
+}
+
+.topic-card:active {
+    transform: scale(0.97);
+}
+
+.topic-card span.material-icons-round {
+    font-size: 28px;
+    padding: 10px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    margin-bottom: 5px;
+}
+
+.topic-card.theme-love {
+    background: linear-gradient(145deg, #201012, #161616);
+    border: 1px solid rgba(233, 30, 99, 0.2);
+}
+
+.topic-card.theme-love span.material-icons-round {
+    color: #f06292;
+    background: rgba(233, 30, 99, 0.1);
+}
+
+.topic-card.theme-anxiety {
+    background: linear-gradient(145deg, #0e151d, #161616);
+    border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+.topic-card.theme-anxiety span.material-icons-round {
+    color: #64b5f6;
+    background: rgba(52, 152, 219, 0.1);
+}
+
+.topic-card.theme-healing {
+    background: linear-gradient(145deg, #0e1d12, #161616);
+    border: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.topic-card.theme-healing span.material-icons-round {
+    color: #81c784;
+    background: rgba(46, 204, 113, 0.1);
+}
+
+.topic-card.theme-hope {
+    background: linear-gradient(145deg, #221a0d, #161616);
+    border: 1px solid rgba(255, 179, 0, 0.2);
+}
+
+.topic-card.theme-hope span.material-icons-round {
+    color: #ffb74d;
+    background: rgba(255, 179, 0, 0.1);
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    gap: 15px;
+    padding-right: 20px;
+}
+
+
+/* --- COMUNIDADE (ARRUMADA E ESPAÇADA) --- */
+
+.friends-list {
+    display: flex;
+    flex-direction: column;
+    /* Removemos o 'colado' aumentando o padding dos itens */
+}
+
+
+/* Row estilo WhatsApp com mais respiro */
+
+.friend-row {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    /* Aumentado para não ficar colado */
+    background: transparent;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-subtle);
+    /* Separador sutil */
+    transition: background 0.2s;
+}
+
+.friend-row:active {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.friend-avatar-container {
+    position: relative;
+    margin-right: 18px;
+}
+
+.avatar-chat-list {
+    width: 54px;
+    /* Avatar um pouco maior */
+    height: 54px;
+    border-radius: 50%;
+    background: #252525;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 20px;
+    color: #fff;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.friend-info-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+.friend-name-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.friend-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.friend-streak-badge {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+.friend-streak-val {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.fire-red {
+    color: #FF5252;
+}
+
+.fire-gold {
+    color: #FFD740;
+}
+
+.fire-blue {
+    color: #40C4FF;
+}
+
+.friend-msg-preview {
+    font-size: 14px;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
+}
+
+.friend-action-right {
+    padding: 8px;
+    color: #555;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+}
+
+
+/* --- CHAT FULL SCREEN --- */
+
+#view-chat {
+    background: #000;
+    height: 100vh;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    height: 70px;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    flex-shrink: 0;
+}
+
+.chat-user-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.chat-body {
+    flex: 1;
+    background: #000;
+    padding: 20px 15px 90px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Mais espaço entre mensagens */
+    overflow-y: auto;
+}
+
+.msg {
+    max-width: 75%;
+    padding: 14px 18px;
+    border-radius: 20px;
+    font-size: 15px;
+    line-height: 1.5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.msg.me {
+    align-self: flex-end;
+    background: var(--primary);
+    color: #000;
+    border-bottom-right-radius: 4px;
+    font-weight: 500;
+}
+
+.msg.them {
+    align-self: flex-start;
+    background: var(--surface-light);
+    color: #fff;
+    border-bottom-left-radius: 4px;
+    border: 1px solid var(--border-subtle);
+}
+
+.chat-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    z-index: 2001;
+}
+
+.chat-input-wrapper {
+    flex: 1;
+    background: var(--surface-light);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+    border: 1px solid var(--border-subtle);
+}
+
+.chat-input-wrapper input {
+    background: transparent;
+    border: none;
+    padding: 12px 15px;
+    color: #fff;
+    width: 100%;
+    font-size: 15px;
+}
+
+.send-btn {
+    color: #000;
+    background: var(--primary);
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
+
+/* --- LEITOR (PRETO PURO E ELEGANTE) --- */
+
+.reader-modal {
+    background: #000;
+    z-index: 3000;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.reader-modal.active {
+    transform: translateY(0);
+}
+
+.reader-top-minimal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.reader-text-area {
+    padding: 80px 30px 100px;
+    font-family: 'Lora', serif;
+    color: #E0E0E0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.reader-book-title {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.reader-big-chapter {
+    text-align: center;
+    font-size: 100px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 0.9;
+    margin-bottom: 40px;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.reader-verse-p {
+    font-size: 20px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    color: #dcdcdc;
+    font-weight: 400;
+}
+
+.verse-num {
+    font-size: 11px;
+    color: #555;
+    vertical-align: top;
+    margin-right: 6px;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+}
+
+.reader-fab {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    z-index: 20;
+    transition: transform 0.2s;
+}
+
+.reader-fab:active {
+    transform: scale(0.9);
+}
+
+
+/* --- PERFIL --- */
+
+
+/* Mantido o CSS mas ajustado para o tema premium */
+
+.profile-header-new {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 20px;
+}
+
+.profile-info-left h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.avatar-xl {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    background: #222;
+    border: 3px solid var(--surface-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    font-weight: 700;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-church-add {
+    width: 100%;
+    background: var(--surface-light);
+    border: 1px solid var(--border-subtle);
+    color: #fff;
+    padding: 14px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    padding: 0 20px 20px;
+}
+
+.action-box {
+    background: var(--surface-light);
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ccc;
+    border: 1px solid var(--border-subtle);
+}
+
+.stat-card-row {
+    background: var(--surface-light);
+    border-radius: 16px;
+    padding: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-subtle);
+}
+
+
+/* Feed */
+
+.feed-card {
+    background: var(--surface-light);
+    border-radius: 16px;
+    padding: 22px;
+    border: 1px solid var(--border-subtle);
+}
+
+
+/* --- NAV BAR (GLASSMORPHISM) --- */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 20px;
+    /* Flutuante estilo iOS novo */
+    left: 20px;
+    right: 20px;
+    width: auto;
+    height: 65px;
+    background: rgba(30, 30, 30, 0.85);
+    /* Vidro */
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 35px;
+    /* Bem arredondada */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 60;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #888;
+    background: none;
+    border: none;
+    font-size: 10px;
+    gap: 4px;
+    transition: color 0.2s;
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+.nav-item.active span.material-icons-round {
+    text-shadow: 0 0 10px var(--primary-glow);
 }

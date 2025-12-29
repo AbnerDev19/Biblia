@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#141414">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Lora:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -74,13 +74,12 @@
                         <button class="icon-btn-clear hidden" id="search-clear" onclick="app.search.clear()"><span class="material-icons-round">close</span></button>
                     </div>
                 </div>
+
                 <div id="explore-default-content">
                     <div class="quick-grid">
                         <div class="quick-btn"><span class="material-icons-round" style="color:#4dabf7">event_note</span><span>Planos</span></div>
-                        <div class="quick-btn"><span class="material-icons-round" style="color:#ff6b6b">play_circle</span><span>Vídeos</span></div>
-                        <div class="quick-btn"><span class="material-icons-round" style="color:#ffd43b">church</span><span>Igrejas</span></div>
-                        <div class="quick-btn"><span class="material-icons-round" style="color:#51cf66">public</span><span>Parceiros</span></div>
                     </div>
+
                     <div class="section-wrapper">
                         <div class="featured-banner">
                             <div style="z-index: 2;">
@@ -91,16 +90,30 @@
                             <div class="banner-circle"></div>
                         </div>
                     </div>
+
                     <div class="section-wrapper">
                         <div class="section-title">Temas</div>
                         <div class="topics-grid">
-                            <div class="topic-card" style="background-color: #8E44AD;">Amor</div>
-                            <div class="topic-card" style="background-color: #E74C3C;">Ansiedade</div>
-                            <div class="topic-card" style="background-color: #27AE60;">Cura</div>
-                            <div class="topic-card" style="background-color: #F39C12;">Esperança</div>
+                            <div class="topic-card theme-love">
+                                <span class="material-icons-round">favorite</span>
+                                <span class="topic-label">Amor</span>
+                            </div>
+                            <div class="topic-card theme-anxiety">
+                                <span class="material-icons-round">self_improvement</span>
+                                <span class="topic-label">Ansiedade</span>
+                            </div>
+                            <div class="topic-card theme-healing">
+                                <span class="material-icons-round">healing</span>
+                                <span class="topic-label">Cura</span>
+                            </div>
+                            <div class="topic-card theme-hope">
+                                <span class="material-icons-round">wb_sunny</span>
+                                <span class="topic-label">Esperança</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="section-wrapper">
                     <div class="section-title" id="search-title">Todos os Livros</div>
                     <div id="search-empty" class="hidden" style="text-align:center; padding: 40px 20px; color: #666;">
@@ -115,28 +128,10 @@
         <section id="view-community" class="screen">
             <div class="scroll-y" style="padding-top: 80px; padding-bottom: 80px;">
                 <div style="padding: 0 20px 20px; display:flex; justify-content:space-between; align-items:center;">
-                    <h2 style="font-size: 22px; font-weight: 800;">Ranking Semanal</h2>
-                    <button class="btn-banner-action" style="background:var(--surface-light); color:#fff; border:1px solid #333;">
-                        <span class="material-icons-round" style="font-size:16px; vertical-align:middle;">person_add</span> Add
-                    </button>
+                    <h2 style="font-size: 22px; font-weight: 800;">Comunidade</h2>
+                    <button class="icon-btn" style="color:#fff;"><span class="material-icons-round">person_add</span></button>
                 </div>
-                <div class="section-wrapper">
-                    <div class="my-rank-card">
-                        <div class="avatar-medium" style="background:var(--primary); color:#000; border: 2px solid #fff;">V</div>
-                        <div class="rank-info">
-                            <div style="font-weight:700; font-size:16px;">Você</div>
-                            <div style="font-size:12px; color:var(--primary);">Em chamas! 🔥</div>
-                        </div>
-                        <div class="rank-stats">
-                            <span class="material-icons-round" style="color:var(--primary); font-size:24px;">local_fire_department</span>
-                            <span id="comm-my-streak" style="font-weight:800; font-size:14px;">--</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="section-wrapper">
-                    <div class="section-title">Líderes</div>
-                    <div class="friends-list" id="community-list"></div>
-                </div>
+                <div class="friends-list" id="community-list"></div>
             </div>
         </section>
 
@@ -218,11 +213,15 @@
                 <div class="stats-section">
                     <div class="stat-card-row">
                         <div class="stat-text">
-                            <span class="stat-value">1</span>
+                            <div class="stat-value" style="display:flex; align-items:center; gap:5px;">
+                                <span class="material-icons-round" style="color:#FF4500;">local_fire_department</span>
+                                <span id="profile-streak-display">0</span>
+                            </div>
                             <span class="stat-label">Perseverança no Aplicativo</span>
                         </div>
-                        <span class="material-icons-round" style="color: #fff;">bolt</span>
+                        <span class="material-icons-round" style="color: #fff; opacity:0.1;">bolt</span>
                     </div>
+
                     <div class="stat-card-row badge-container">
                         <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:10px;">
                             <div class="stat-text">
@@ -259,12 +258,19 @@
         </section>
 
         <div id="reader-overlay" class="screen reader-modal">
-            <div class="reader-top">
-                <button class="icon-btn" onclick="app.reader.close()"><span class="material-icons-round">arrow_back</span></button>
-                <span class="reader-title-header" id="reader-header-title">Leitura</span>
-                <button class="icon-btn"><span class="material-icons-round">text_format</span></button>
+            <div class="reader-top-minimal">
+                <button class="icon-btn" onclick="app.reader.close()"><span class="material-icons-round">keyboard_arrow_down</span></button>
+                <div class="reader-actions-right">
+                    <button class="icon-btn"><span class="material-icons-round">search</span></button>
+                    <button class="icon-btn"><span class="material-icons-round">more_horiz</span></button>
+                </div>
             </div>
-            <div class="reader-text-area scroll-y" id="reader-content"></div>
+
+            <div class="reader-text-area scroll-y" id="reader-scroll-area">
+                <div id="reader-content-wrapper">
+                </div>
+            </div>
+
             <div class="reader-fab" onclick="app.reader.finish()"><span class="material-icons-round">check</span></div>
         </div>
 
@@ -276,7 +282,7 @@
                 <span class="material-icons-round">grid_view</span><span>Explorar</span>
             </button>
             <button class="nav-item" onclick="app.nav.goTo('community')">
-                <span class="material-icons-round">groups</span><span>Comunidade</span>
+                <span class="material-icons-round">chat_bubble_outline</span><span>Comunidade</span>
             </button>
             <button class="nav-item" onclick="app.nav.goTo('profile')">
                 <span class="material-icons-round">person</span><span>Perfil</span>
